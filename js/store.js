@@ -363,7 +363,7 @@ const store = {
 
   onTrackerList(url) {
     for(let index in this.trackerList) {
-      if(url.replace(/^https?:\/\//, '').replace(/^www\./, '').match(new RegExp('^' + this.trackerList[index]))) {
+      if(url.replace(/^https?:\/\//, '').replace(/^www\./, '').match(new RegExp(this.trackerList[index]))) {
         return true;
       }
     }

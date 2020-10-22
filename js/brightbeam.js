@@ -38,7 +38,7 @@ const brightbeam = {
 
     for(index in this.trackerStore) {
       let tracker = this.trackerStore[index];
-      let matcher = new RegExp('^' + tracker['pattern']);
+      let matcher = new RegExp(tracker['pattern']);
       if(hostname.match(matcher)) {
         this.trackerCache[hostname] = tracker;
         return tracker;
@@ -80,6 +80,7 @@ const brightbeam = {
   addListeners() {
     this.downloadJSONData();
     this.downloadGDFData();
+    this.downloadCSVData();
     this.resetData();
     this.showGraphView();
     this.showListView();
@@ -170,64 +171,6 @@ const brightbeam = {
     return await storeChild.getNumThirdParties();
   },
 
-  downloadGDFData() {
-    const saveData = document.getElementById('save-gdf-button');
-    let self = this;
-    let nodeFields = {
-      id: 'VARCHAR',
-      label: 'VARCHAR',
-      tracker_type: 'VARCHAR',
-      tracker_id: 'INTEGER',
-      company_id: 'INTEGER'
-    }
-    let edgeFields = {
-      source: 'VARCHAR',
-      target: 'VARCHAR',
-      directed: 'BOOLEAN'
-    }
-    saveData.addEventListener('click', async () => {
-      const network = await this.getNetwork();
-      let gdfData = [];
-
-      let nodedef = [];
-      for(let field in nodeFields) {
-        if(field == 'id') { field = 'name'; }
-        nodedef.push(field + ' ' + nodeFields[field]);
-      }
-      gdfData.push('nodedef>' + nodedef.join(',') + '\n');
-      network.nodes.forEach(function(node) {
-        let nodebuffer = [];
-        for(let field in nodeFields) {
-          nodebuffer.push(node[field]);
-        }
-        gdfData.push(nodebuffer.join(',') + '\n')
-      })
-
-      let edgedef = [];
-      for(let field in edgeFields) {
-        if(field == 'source') { field = 'from'; }
-        if(field == 'target') { field = 'to'; }
-        edgedef.push(field + ' ' + edgeFields[field]);
-      }
-      gdfData.push('edgedef>' + edgedef.join(',') + '\n');
-      network.edges.forEach(function(edge) {
-        let edgebuffer = [];
-        for(let field in edgeFields) {
-          edgebuffer.push(edge[field]);
-        }
-        gdfData.push(edgebuffer.join(',') + '\n')
-      })
-
-      const blob = new Blob(gdfData, {type : 'application/gdf'});
-      const url = window.URL.createObjectURL(blob);
-      const downloading = browser.downloads.download({
-        url : url,
-        filename : 'brightbeamData.gdf',
-        conflictAction : 'uniquify'
-      });
-      await downloading;
-    });
-  },
 
   async getNetwork() {
     const data = await storeChild.getAll();
@@ -321,6 +264,65 @@ const brightbeam = {
     return network;
   },
 
+  downloadGDFData() {
+    const saveData = document.getElementById('save-gdf-button');
+    let self = this;
+    let nodeFields = {
+      id: 'VARCHAR',
+      label: 'VARCHAR',
+      tracker_type: 'VARCHAR',
+      tracker_id: 'INTEGER',
+      company_id: 'INTEGER'
+    }
+    let edgeFields = {
+      source: 'VARCHAR',
+      target: 'VARCHAR',
+      directed: 'BOOLEAN'
+    }
+    saveData.addEventListener('click', async () => {
+      const network = await this.getNetwork();
+      let gdfData = [];
+
+      let nodedef = [];
+      for(let field in nodeFields) {
+        if(field == 'id') { field = 'name'; }
+        nodedef.push(field + ' ' + nodeFields[field]);
+      }
+      gdfData.push('nodedef>' + nodedef.join(',') + '\n');
+      network.nodes.forEach(function(node) {
+        let nodebuffer = [];
+        for(let field in nodeFields) {
+          nodebuffer.push(node[field]);
+        }
+        gdfData.push(nodebuffer.join(',') + '\n')
+      })
+
+      let edgedef = [];
+      for(let field in edgeFields) {
+        if(field == 'source') { field = 'from'; }
+        if(field == 'target') { field = 'to'; }
+        edgedef.push(field + ' ' + edgeFields[field]);
+      }
+      gdfData.push('edgedef>' + edgedef.join(',') + '\n');
+      network.edges.forEach(function(edge) {
+        let edgebuffer = [];
+        for(let field in edgeFields) {
+          edgebuffer.push(edge[field]);
+        }
+        gdfData.push(edgebuffer.join(',') + '\n')
+      })
+
+      const blob = new Blob(gdfData, {type : 'application/gdf'});
+      const url = window.URL.createObjectURL(blob);
+      const downloading = browser.downloads.download({
+        url : url,
+        filename : 'brightbeamData.gdf',
+        conflictAction : 'uniquify'
+      });
+      await downloading;
+    });
+  },
+
   downloadJSONData() {
     const saveData = document.getElementById('save-json-button');
     saveData.addEventListener('click', async () => {
@@ -331,6 +333,41 @@ const brightbeam = {
       const downloading = browser.downloads.download({
         url : url,
         filename : 'brightbeamData.json',
+        conflictAction : 'uniquify'
+      });
+      await downloading;
+    });
+  },
+
+  downloadCSVData() {
+    const saveData = document.getElementById('save-csv-button');
+    saveData.addEventListener('click', async () => {
+      const network = await this.getNetwork();
+      let csvData = [];
+      csvData.push('source,name,type,aid,cid\n');
+
+      let nodeMap = [];
+      for(let index in network.nodes) {
+        let node = network.nodes[index];
+        nodeMap[node['id']] = node;
+      }
+
+      for(let index in network.edges) {
+        let edge = network.edges[index]
+        csvData.push([
+            nodeMap[edge.source]['id'],
+            nodeMap[edge.target]['label'],
+            nodeMap[edge.target]['tracker_type'],
+            nodeMap[edge.target]['company_id'],
+            nodeMap[edge.target]['tracker_id']
+        ].join(',') + '\n')
+      }
+
+      const blob = new Blob(csvData,{type : 'text/csv'});
+      const url = window.URL.createObjectURL(blob);
+      const downloading = browser.downloads.download({
+        url : url,
+        filename : 'brightbeamData.csv',
         conflictAction : 'uniquify'
       });
       await downloading;

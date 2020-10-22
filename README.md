@@ -17,5 +17,5 @@ check out the git repository and
 
 ## Credits & license
 Brightbeam was developed on top Lightbeam by Stijn Peeters for the 
-[Digital Methods Ininitative](https://digitalmethods.net) and is licensed under the Mozilla Public License, 2.0. Refer 
+[Digital Methods Initiative](https://digitalmethods.net) and is licensed under the Mozilla Public License, 2.0. Refer 
 to the LICENSE file for more information.

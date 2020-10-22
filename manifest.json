@@ -1,0 +1,49 @@
+{
+  "manifest_version": 2,
+  "name": "Brightbeam",
+  "version": "4.0.0",
+
+  "description": "Brightbeam is a browser extension that uses interactive visualizations to show you the relationships between third parties and the sites you visit. It is a fork of the late Mozilla Lightbeam.",
+  "homepage_url": "https://github.com/digitalmethodsinitiative/brightbeam",
+  "developer": {
+    "name": "Stijn Peeters",
+    "url": "https://tools.digitalmethods.net"
+  },
+
+  "icons": {
+    "48": "images/lightbeam-48.png",
+    "96": "images/lightbeam-96.png"
+  },
+
+  "permissions": [
+    "webRequest",
+    "<all_urls>",
+    "tabs",
+    "cookies",
+    "storage",
+    "downloads",
+    "privacy"
+  ],
+
+  "browser_action": {
+    "default_icon": "images/lightbeam-48.png",
+    "default_title": "Brightbeam"
+  },
+
+  "applications": {
+    "gecko": {
+      "strict_min_version": "52.0"
+    }
+  },
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval' blob:; object-src 'self';",
+
+  "background": {
+    "scripts": [
+      "ext-libs/dexie.js",
+      "js/store.js",
+      "js/capture.js",
+      "js/background.js"
+    ]
+  }
+}

@@ -503,6 +503,12 @@ main {
   display: inline;
 }
 
+#graph-legend {
+  position: fixed;
+  bottom: 65px;
+  right: 1em;
+}
+
 #tooltip {
   position: absolute;
   z-index: 1;

@@ -385,6 +385,7 @@ const brightbeam = {
     document.getElementById('view').innerText = 'Graph';
     document.getElementById('vis-graph').classList.remove('hidden');
     document.getElementById('vis-list').classList.add('hidden');
+    document.getElementById('graph-legend').classList.remove('hidden');
     this.stopGraphView();
     let network = await this.getNetwork();
     console.log(network);
@@ -435,6 +436,7 @@ const brightbeam = {
       document.getElementById('vis-graph').innerHTML = '';
       document.getElementById('vis-graph').classList.add('hidden');
       document.getElementById('vis-list').classList.remove('hidden');
+    document.getElementById('graph-legend').classList.add('hidden');
 
       let container = document.getElementById('site-list');
       const data = await storeChild.getAll();

@@ -204,6 +204,7 @@ const brightbeam = {
     let sourceIDs = [];
     let edge_index = 0;
     for(let site in data) {
+      console.log(site);
       if (!data[site].firstParty) {
         continue;
       }
@@ -219,6 +220,7 @@ const brightbeam = {
         color: '#FFF'
       });
       sourceIDs.push(site);
+      allSeenTrackerIDs.push(site)
     }
     for(let site in data) {
       let seenTrackerIDs = sourceIDs.slice();
@@ -284,6 +286,8 @@ const brightbeam = {
         color: colour
       })
     });
+
+    console.log(network);
 
     return network;
   },
@@ -368,7 +372,7 @@ const brightbeam = {
     saveData.addEventListener('click', async () => {
       const network = await this.getNetwork();
       let csvData = [];
-      csvData.push('source,name,type,aid,cid\n');
+      csvData.push('source_site,tracker_name,tracker_type,aid,cid\n');
 
       let nodeMap = [];
       for(let index in network.nodes) {
@@ -412,6 +416,8 @@ const brightbeam = {
     document.getElementById('vis-list').classList.add('hidden');
     document.getElementById('graph-legend').classList.remove('hidden');
     this.stopGraphView();
+    document.getElementById('vis-progress').style.display = 'block';
+    document.getElementById('vis-graph').style.visibility = 'hidden';
     let network = await this.getNetwork();
     this.sigma = new sigma({
       graph: network,
@@ -439,7 +445,11 @@ const brightbeam = {
       slowDown: 10
     });
     this.sigma.refresh();
-    this.sigma.stopForceAtlas2();
+    setTimeout(() => {
+      document.getElementById('vis-progress').style.display = 'none';
+      document.getElementById('vis-graph').style.visibility = 'visible';
+      this.sigma.stopForceAtlas2();
+    }, 1000);
   },
   
   showListView() {

@@ -11,8 +11,8 @@
   },
 
   "icons": {
-    "48": "images/lightbeam-48.png",
-    "96": "images/lightbeam-96.png"
+    "48": "images/brightbeam-48.png",
+    "96": "images/brightbeam-96.png"
   },
 
   "permissions": [
@@ -26,7 +26,7 @@
   ],
 
   "browser_action": {
-    "default_icon": "images/lightbeam-48.png",
+    "default_icon": "images/brightbeam-48.png",
     "default_title": "Brightbeam"
   },
 

@@ -11,9 +11,9 @@ trackers (rather than block them), Brightbeam seeks to build upon Lightbeam to o
 purpose.
 
 ## Installation
-Brightbeam is currently in development. At some point we will provide an .xpi file you can install: until then, you can
-check out the git repository and 
-[run it from the Firefox debugging console](https://www.youtube.com/watch?v=sAM78GU4P34&feature=emb_title).
+Brightbeam is currently in development. .xpi files of work-in-progress versions are available on the 
+[releases](https://github.com/digitalmethodsinitiative/brightbeam/releases) page. To run the latest development version,
+you can [do so from the Firefox debugging console](https://www.youtube.com/watch?v=sAM78GU4P34&feature=emb_title).
 
 ## Credits & license
 Brightbeam was developed on top Lightbeam by Stijn Peeters for the 

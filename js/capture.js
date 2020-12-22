@@ -43,28 +43,32 @@ const capture = {
   // executed when the previous call to processNextEvent
   // has completed.
   async processNextEvent(ignore = false) {
+    let ignoreEvents = await browser.storage.local.get('ignoreEvents');
+    ignoreEvents =  ('ignoreEvents' in ignoreEvents) && ignoreEvents.ignoreEvents;
     if (this.processingQueue && !ignore) {
       return;
     }
     if (this.queue.length >= 1) {
       try {
         const nextEvent = this.queue.shift();
-        this.processingQueue = true;
-        switch (nextEvent.type) {
-          case 'sendFirstParty':
-            await this.sendFirstParty(
-              nextEvent.data.tabId,
-              nextEvent.data.changeInfo,
-              nextEvent.data.tab
-            );
-            break;
-          case 'sendThirdParty':
-            await this.sendThirdParty(nextEvent.data);
-            break;
-          default:
-            throw new Error(
-              'An event must be of type sendFirstParty or sendThirdParty.'
-            );
+        if(!ignoreEvents) {
+          this.processingQueue = true;
+          switch (nextEvent.type) {
+            case 'sendFirstParty':
+              await this.sendFirstParty(
+                  nextEvent.data.tabId,
+                  nextEvent.data.changeInfo,
+                  nextEvent.data.tab
+              );
+              break;
+            case 'sendThirdParty':
+              await this.sendThirdParty(nextEvent.data);
+              break;
+            default:
+              throw new Error(
+                  'An event must be of type sendFirstParty or sendThirdParty.'
+              );
+          }
         }
       } catch (e) {
         // eslint-disable-next-line no-console

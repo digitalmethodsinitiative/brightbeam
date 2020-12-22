@@ -7,13 +7,18 @@ const brightbeam = {
   trackerStore: null,
   trackerCache: [],
   sigma: null,
+  currentView: 'list',
 
   async init() {
     await this.loadTrackers();
     this.renderGraph();
     this.addListeners();
     this.toggleUnrecognised();
+    this.togglePause();
     this.updateVars();
+
+    let ignoreEvents = await browser.storage.local.get('ignoreEvents');
+    document.getElementById('pause-collection').checked = !!ignoreEvents.ignoreEvents;
   },
 
   async loadTrackers() {
@@ -77,6 +82,19 @@ const brightbeam = {
     });
   },
 
+  async togglePause() {
+    const toggleCheckbox = document.getElementById('pause-collection');
+    let self = this;
+    toggleCheckbox.addEventListener('change', async () => {
+      let ignoreEvents = await browser.storage.local.get('ignoreEvents');
+      if (! ('ignoreEvents' in ignoreEvents) || !ignoreEvents.ignoreEvents) {
+        await browser.storage.local.set({ignoreEvents: true});
+      } else {
+        await browser.storage.local.set({ignoreEvents: false});
+      }
+    });
+  },
+
   addListeners() {
     this.downloadJSONData();
     this.downloadGDFData();
@@ -87,7 +105,11 @@ const brightbeam = {
     this.loadListView();
     storeChild.onUpdate((data) => {
       this.redraw(data);
-      this.loadListView();
+      if(this.currentView == 'list') {
+        this.loadListView();
+      } else {
+        this.loadGraphView();
+      }
     });
   },
 
@@ -98,13 +120,16 @@ const brightbeam = {
     // initialize dynamic vars from storage
     if (!this.dataGatheredSince) {
       const { dateStr, fullDateTime } = await this.getDataGatheredSince();
+      const dataGatheredSinceElement
+          = document.getElementById('data-gathered-since');
       if (!dateStr) {
+        this.setPartyVar('firstParty');
+        this.setPartyVar('thirdParty');
+        dataGatheredSinceElement.textContent = 'Unknown';
         return;
       }
       this.dataGatheredSince = dateStr;
-      const dataGatheredSinceElement
-        = document.getElementById('data-gathered-since');
-      dataGatheredSinceElement.textContent = this.dataGatheredSince || '';
+      dataGatheredSinceElement.textContent = this.dataGatheredSince || 'Unknown';
       dataGatheredSinceElement.setAttribute('datetime', fullDateTime || '');
     }
     if (isFirstParty === undefined) {
@@ -129,14 +154,13 @@ const brightbeam = {
   setPartyVar(party) {
     const numFirstPartiesElement = document.getElementById('num-first-parties');
     const numThirdPartiesElement = document.getElementById('num-third-parties');
-    if (party === 'firstParty') {
-      if (this.numFirstParties === 0) {
-        numFirstPartiesElement.textContent = '';
-      } else {
-        numFirstPartiesElement.textContent = `${this.numFirstParties} Sites`;
-      }
-    } else if (this.numThirdParties === 0) {
-      numThirdPartiesElement.textContent = '';
+    if (this.numFirstParties === 0) {
+      numFirstPartiesElement.textContent = 'None';
+    } else {
+      numFirstPartiesElement.textContent = `${this.numFirstParties} Sites`;
+    }
+    if (this.numThirdParties === 0) {
+      numThirdPartiesElement.textContent = 'None';
     } else {
       const str = `${this.numThirdParties} Third Party Sites`;
       numThirdPartiesElement.textContent = str;
@@ -380,6 +404,7 @@ const brightbeam = {
   },
   
   async loadGraphView() {
+    this.currentView = 'graph';
     document.getElementById('view-list-button').classList.remove('active');
     document.getElementById('view-graph-button').classList.add('active');
     document.getElementById('view').innerText = 'Graph';
@@ -388,7 +413,6 @@ const brightbeam = {
     document.getElementById('graph-legend').classList.remove('hidden');
     this.stopGraphView();
     let network = await this.getNetwork();
-    console.log(network);
     this.sigma = new sigma({
       graph: network,
       container: 'vis-graph',
@@ -415,7 +439,7 @@ const brightbeam = {
       slowDown: 10
     });
     this.sigma.refresh();
-    self.sigma.stopForceAtlas2();
+    this.sigma.stopForceAtlas2();
   },
   
   showListView() {
@@ -429,6 +453,8 @@ const brightbeam = {
   },
 
   async loadListView() {
+    this.currentView = 'list';
+
       this.stopGraphView();
       document.getElementById('view-graph-button').classList.remove('active');
       document.getElementById('view-list-button').classList.add('active');
@@ -436,7 +462,7 @@ const brightbeam = {
       document.getElementById('vis-graph').innerHTML = '';
       document.getElementById('vis-graph').classList.add('hidden');
       document.getElementById('vis-list').classList.remove('hidden');
-    document.getElementById('graph-legend').classList.add('hidden');
+      document.getElementById('graph-legend').classList.add('hidden');
 
       let container = document.getElementById('site-list');
       const data = await storeChild.getAll();

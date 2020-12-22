@@ -703,6 +703,16 @@ footer.unimplemented, .hidden {
   display: none;
 }
 
+.pause-toggle {
+  background: var(--button-color);
+  padding: 0.25em;
+  border-radius: 3px;
+  margin-top: 0.5em;
+  color: var(--primary-text-color);
+}
+
+.
+
 .max-graph {
   position: relative;
   z-index: 2;

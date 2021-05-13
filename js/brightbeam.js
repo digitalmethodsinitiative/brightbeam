@@ -566,22 +566,6 @@ const brightbeam = {
     });
   },
 
-  // reload_page() {
-  //   console.log("Atempt Reload");
-  //   if(!document.hasFocus()) {
-  //       // do not update if user not on tab
-  //       return;
-  //   } else {
-  //     if(this.currentView == 'list') {
-  //       async () => { await loadListView(); }
-  //       console.log("Reload List View");
-  //     } else {
-  //       async () => { await loadGraphView(); }
-  //       console.log("Reload Graph View");
-  //     }
-  //   }
-  // },
-
   redraw(data) {
     if (!(data.hostname in this.websites)) {
       this.websites[data.hostname] = data;

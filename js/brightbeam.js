@@ -60,7 +60,7 @@ const brightbeam = {
   renderGraph() {
 //    viz.init(this.transformedData.nodes, this.transformedData.links);
   },
-  
+
   stopRenderingGraph() {
   },
 
@@ -103,12 +103,32 @@ const brightbeam = {
     this.showGraphView();
     this.showListView();
     this.loadListView();
+    // Reload if there is a change in data and tab in focus
     storeChild.onUpdate((data) => {
       this.redraw(data);
-      if(this.currentView == 'list') {
-        this.loadListView();
-      } else {
-        this.loadGraphView();
+      if(document.hasFocus()) {
+        if(this.currentView == 'list') {
+          this.loadListView();
+        } else {
+          this.loadGraphView();
+        }
+      }
+    });
+    // Reload if the tab comes into focus from another tab
+    document.addEventListener("visibilitychange", async () => {
+      try {
+        if(document.hasFocus()) {
+        // console.log('Tab came into focus');
+        if(this.currentView == 'list') {
+            await this.loadListView();
+          } else {
+            await this.loadGraphView();
+          }
+        } //else {
+        //   // console.log('Tab out of focus');
+        // }
+      } catch (err) {
+        console.log(err)
       }
     });
   },
@@ -204,7 +224,7 @@ const brightbeam = {
     let sourceIDs = [];
     let edge_index = 0;
     for(let site in data) {
-      console.log(site);
+      // console.log(site);
       if (!data[site].firstParty) {
         continue;
       }
@@ -406,7 +426,7 @@ const brightbeam = {
     this.sigma = null;
     document.getElementById('vis-graph').innerHTML = '';
   },
-  
+
   async loadGraphView() {
     this.currentView = 'graph';
     document.getElementById('view-list-button').classList.remove('active');
@@ -445,13 +465,16 @@ const brightbeam = {
       slowDown: 10
     });
     this.sigma.refresh();
-    setTimeout(() => {
-      document.getElementById('vis-progress').style.display = 'none';
-      document.getElementById('vis-graph').style.visibility = 'visible';
-      this.sigma.stopForceAtlas2();
-    }, 1000);
+    let holder = this;
+    setTimeout(this.helpStop(holder), 1000);
   },
-  
+
+  helpStop(object) {
+    document.getElementById('vis-progress').style.display = 'none';
+    document.getElementById('vis-graph').style.visibility = 'visible';
+    object.sigma.stopForceAtlas2();
+  },
+
   showListView() {
     const showListView = document.getElementById('view-list-button');
     showListView.addEventListener('click', async () => { await this.loadListView(); });
@@ -542,6 +565,22 @@ const brightbeam = {
       resetData.focus();
     });
   },
+
+  // reload_page() {
+  //   console.log("Atempt Reload");
+  //   if(!document.hasFocus()) {
+  //       // do not update if user not on tab
+  //       return;
+  //   } else {
+  //     if(this.currentView == 'list') {
+  //       async () => { await loadListView(); }
+  //       console.log("Reload List View");
+  //     } else {
+  //       async () => { await loadGraphView(); }
+  //       console.log("Reload Graph View");
+  //     }
+  //   }
+  // },
 
   redraw(data) {
     if (!(data.hostname in this.websites)) {

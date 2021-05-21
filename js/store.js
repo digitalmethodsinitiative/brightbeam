@@ -140,6 +140,7 @@ const store = {
   },
 
   // send message to storeChild when data in store is changed
+  // TODO: catch error - throws when Brightbeam tab not open 
   updateChild(...args) {
     return browser.runtime.sendMessage({
       type: 'storeChildCall',

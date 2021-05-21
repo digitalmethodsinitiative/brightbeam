@@ -10,7 +10,7 @@ async function checkFirstRun() {
 checkFirstRun();
 
 async function runBrightbeam() {
-  // Checks to see if Lightbeam is already open.
+  // Checks to see if Brightbeam is already open.
   // Returns true if it is, false if not.
   async function isOpen() {
     const tabs = await browser.tabs.query({});

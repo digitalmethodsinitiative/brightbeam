@@ -15,7 +15,7 @@ Brightbeam is currently in development. .xpi files of work-in-progress versions 
 [releases](https://github.com/digitalmethodsinitiative/brightbeam/releases) page. To run the latest development version,
 you can [do so from the Firefox debugging console](https://www.youtube.com/watch?v=sAM78GU4P34&feature=emb_title).
 
-Note that we are not able to include the full tracker database (tracker.json) in this Github repository. The format is 
+Note that we are not able to include the full tracker database (trackers.json) in this Github repository. The format is 
 however straightforward and it should be easy to adapt your own database of trackers to it.
 
 ## Credits & license

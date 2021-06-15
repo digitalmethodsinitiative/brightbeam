@@ -1,0 +1,25 @@
+{
+  "language": "eng",
+  "license": "MPL-2.0",
+  "title": "Brightbeam",
+  "upload_type": "software",
+  "version": "v4.1",
+  "keywords": [
+    "web tracking",
+    "network visualisation",
+    "browser extension"
+  ],
+  "creators": [
+    {
+      "orcid": "0000-0002-0161-8019",
+      "affiliation": "University of Amsterdam",
+      "name": "Stijn Peeters"
+    },
+    {
+      "affiliation": "University of Amsterdam",
+      "name": "Dale Wahl"
+    }
+  ],
+  "access_right": "open",
+  "description": "<p>Brightbeam is a continuation/fork of Mozilla Lightbeam, a Firefox extension made to \"help users understand the array of first and third party companies people interact with every day across the Web\".</p><p>While active, it keeps track of what sites you visit, and what external content those sites load. Known trackers can be identified and the aggregate data can be exported to study with external tools like Gephi.</p><p>Lightbeam was discontinued by Mozilla in 2017. Because its functionality is quite useful for people who wish to research trackers (rather than block them), Brightbeam seeks to build upon Lightbeam to offer functionality specifically for that purpose.</p><p>This Zenodo record serves as a static, archived version of the Brightbeam git repository as it is tagged for release. For the latest canonical version of the code, visit the <a href='https://github.com/digitalmethodsinitiative/brightbeam'>GitHub repository</a>."
+}

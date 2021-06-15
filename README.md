@@ -15,6 +15,9 @@ Brightbeam is currently in development. .xpi files of work-in-progress versions 
 [releases](https://github.com/digitalmethodsinitiative/brightbeam/releases) page. To run the latest development version,
 you can [do so from the Firefox debugging console](https://www.youtube.com/watch?v=sAM78GU4P34&feature=emb_title).
 
+Note that we are not able to include the full tracker database (tracker.json) in this Github repository. The format is 
+however straightforward and it should be easy to adapt your own database of trackers to it.
+
 ## Credits & license
 Brightbeam was developed on top Lightbeam by Stijn Peeters for the 
 [Digital Methods Initiative](https://digitalmethods.net) and is licensed under the Mozilla Public License, 2.0. Refer 

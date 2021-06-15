@@ -1,5 +1,7 @@
 # Brightbeam
 
+[![DOI](https://zenodo.org/badge/306277620.svg)](https://zenodo.org/badge/latestdoi/306277620)
+
 Brightbeam is a continuation/fork of Mozilla Lightbeam, a Firefox extension made to "help users understand the array of 
 first and third party companies people interact with every day across the Web".
 

@@ -2,11 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/306277620.svg)](https://zenodo.org/badge/latestdoi/306277620)
 
-<p align="center">
-
-![Aaa](images/example_screenshot.png)
-
-</p>
+<p align="center"><img alt="A screenshot of Brightbeam, displaying its 'Graph' view of detected third-party trackers" src="images/example_screenshot.png"></p>
 
 Brightbeam is a continuation/fork of [Mozilla Lightbeam](https://github.com/mozilla/lightbeam), a Firefox extension made 
 to "help users understand the array of first and third party companies people interact with every day across the Web".

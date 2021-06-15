@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Brightbeam",
-  "version": "4.1",
+  "version": "4.2",
 
   "description": "Brightbeam is a browser extension that uses interactive visualizations to show you the relationships between third parties and the sites you visit. It is a fork of the late Mozilla Lightbeam.",
   "homepage_url": "https://github.com/digitalmethodsinitiative/brightbeam",

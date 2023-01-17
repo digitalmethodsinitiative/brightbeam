@@ -423,7 +423,10 @@ const brightbeam = {
   },
 
   stopGraphView() {
-    this.sigma = null;
+    if(this.sigma) {
+      this.sigma.stopForceAtlas2();
+      this.sigma = null;
+    }
     document.getElementById('vis-graph').innerHTML = '';
   },
 
@@ -465,14 +468,8 @@ const brightbeam = {
       slowDown: 10
     });
     this.sigma.refresh();
-    let holder = this;
-    setTimeout(this.helpStop(holder), 1000);
-  },
-
-  helpStop(object) {
     document.getElementById('vis-progress').style.display = 'none';
     document.getElementById('vis-graph').style.visibility = 'visible';
-    object.sigma.stopForceAtlas2();
   },
 
   showListView() {

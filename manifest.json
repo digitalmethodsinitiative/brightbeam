@@ -1,13 +1,19 @@
 {
   "manifest_version": 2,
   "name": "Brightbeam",
-  "version": "4.2",
+  "version": "4.2.2",
 
   "description": "Brightbeam is a browser extension that uses interactive visualizations to show you the relationships between third parties and the sites you visit. It is a fork of the late Mozilla Lightbeam.",
   "homepage_url": "https://github.com/digitalmethodsinitiative/brightbeam",
   "developer": {
     "name": "Stijn Peeters",
     "url": "https://tools.digitalmethods.net"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "update_url": "https://extensions.digitalmethods.net/updates.json"
+    }
   },
 
   "icons": {
@@ -28,12 +34,6 @@
   "browser_action": {
     "default_icon": "images/brightbeam-48.png",
     "default_title": "Brightbeam"
-  },
-
-  "applications": {
-    "gecko": {
-      "strict_min_version": "52.0"
-    }
   },
 
   "content_security_policy": "script-src 'self' 'unsafe-eval' blob:; object-src 'self';",

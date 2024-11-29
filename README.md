@@ -15,7 +15,7 @@ trackers (rather than block them), Brightbeam seeks to build upon Lightbeam to o
 purpose.
 
 ## Installation
-Brightbeam is in active development. .xpi files of work-in-progress versions are available on the 
+Brightbeam is in semi-active development. .xpi files of work-in-progress versions are available on the 
 [releases](https://github.com/digitalmethodsinitiative/brightbeam/releases) page. These are signed and can be installed 
 in any Firefox-based browser. If you want to run the latest development version instead, you can [do so from the Firefox
 debugging console](https://www.youtube.com/watch?v=sAM78GU4P34&feature=emb_title).
